@@ -1,0 +1,60 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model PagedList.PagedList<SachOnline.Models.CHUDE>
+@helper Truncate(string s, int length)
+{
+    if (s.Length <= length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Admin";
+}
+<h2 style="text-align:center; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">QUẢN TRỊ CHỦ ĐỀ</h2>
+
+<style type="text/css">
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+</style>
+
+
+<p>
+    @Html.ActionLink("Thêm mới chủ đề", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="text-align:center;width:140px">
+            Tên Chủ Đề
+        </th>
+        <th style="text-align:center"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @*Sử dụng helper để cắt TenSach lấy 50 ký tự*@
+                @Truncate(item.TenChuDe, 50)
+            </td>
+            <td>
+                @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.MaCD }, new { @class = "btn btn-warning" })
+
+                @Html.ActionLink("Xóa", "Delete", new { id = item.MaCD }, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+    }
+</table>
+@*Tạo liên kết phần trang*@
+Trang @(Model.PageCount < Model.PageNumber ? 0 :
+Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+

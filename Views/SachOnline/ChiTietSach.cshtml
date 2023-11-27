@@ -1,0 +1,106 @@
+﻿@model SachOnline.Models.ChiTietSachModel
+
+@{
+    ViewBag.Title = "ChiTietSach";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<style type="text/css">
+    .imgbook {
+        transition: all 1s ease-in;
+        width: 400px;
+    }
+
+    .tensach {
+        color: red;
+    }
+
+    .imgbook:hover {
+        transform: scale(0.9);
+        cursor: pointer;
+    }
+    .comment-container{
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .comment-item {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+        .comment-item strong {
+            color: #337ab7;
+        }
+        .comment-item span.text-muted {
+            color: #777;
+            font-size: 12px;
+        }
+    .comment-form {
+        margin-top: 20px;
+    }
+        .comment-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .comment-form textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .comment-form input[type="submit"] {
+            background-color: #5bc0de;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+</style>
+
+<div class="thumbnail" style="margin-top: 200px;">
+    <h4 class="tensach">
+        @Model.Sach.TenSach
+    </h4>
+    <img src="~/Image/@Model.Sach.AnhBia" alt="@Model.Sach.TenSach" style="height:400px;">
+    <div class="motasach">
+        <p>
+            @Html.Raw(Model.Sach.MoTa.Replace("\n", "</p><p>&nbsp&nbsp&nbsp&nbsp&nbsp"))
+        </p>
+    </div>
+    <p class="ngaycapnhat">Ngày cập nhật: @Html.FormatValue(Model.Sach.NgayCapNhat, "{0:dd/MM/yyyy}")</p>
+    <p class="giaban">Giá bán: <span>@Html.FormatValue(Model.Sach.GiaBan, "{0:#,##0}") VNĐ</span></p>
+    <p class="addtocard">
+        <a href="@Url.Action("ThemGioHang", "GioHang", new { ms = Model.Sach.MaSach, Url = Request.Url.ToString() })" class="btn btn-primary" role="button">
+            <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true">
+                Add to Cart
+            </span>
+        </a>
+    </p>
+
+
+    <h2>Bình Luận</h2>
+    <ul style="height: 100px;">
+        @foreach (var binhLuan in Model.BinhLuans)
+        {
+            <li>
+                <strong>@binhLuan.UserName:</strong> @binhLuan.NoiDung
+                <span class="text-muted">@binhLuan.NgayTao.ToString("dd/MM/yyyy HH:mm")</span>
+            </li>
+        }
+    </ul>
+
+    <form action="@Url.Action("ThemBinhLuan", "SachOnline")" method="post">
+        @Html.Hidden("MaSach", Model.Sach.MaSach)
+        <label for="NoiDung">Bình Luận:</label>
+        <textarea name="NoiDung" id="NoiDung" rows="4" required></textarea>
+        <br />
+        <input type="submit" value="Gửi Bình Luận" />
+    </form>
+</div>

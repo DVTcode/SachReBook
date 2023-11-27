@@ -1,0 +1,22 @@
+﻿@model List<CommentModel>
+@{
+    ViewBag.Title = "BinhLuan";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<h2>Bình Luận</h2>
+
+@foreach (var comment in Model)
+{
+    <p>@comment.UserName - @comment.NoiDung - @comment.NgayTao</p>
+}
+
+<!-- Form để thêm bình luận -->
+@using (Html.BeginForm("ThemBinhLuan", "SachOnline", FormMethod.Post))
+{
+    @Html.Hidden("MaSach", ViewBag.Id)
+    <textarea name="NoiDung" rows="4" cols="50" placeholder="Nhập bình luận"></textarea>
+    <br />
+    <input type="submit" value="Bình Luận" />
+}
+

@@ -1,0 +1,133 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model PagedList.PagedList<SachOnline.Models.SACH>
+@helper Truncate(string s, int length)
+{
+    if (s.Length <= length)
+    {
+        @s
+    }
+    else
+    {
+        @s.Substring(0, length)<text>...</text>
+    }
+}
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_LayoutAdmin.cshtml";
+    ViewBag.Title = "Admin";
+}
+<h2 style="text-align:center; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">QUẢN TRỊ SACHONLINE</h2>
+
+<style type="text/css">
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+    .label-success {
+        background-color: #5bc0de;
+        color: #fff;
+        padding: 3px 6px;
+        border-radius: 3px;
+    }
+
+    .label-danger {
+        background-color: #d9534f;
+        color: #fff;
+        padding: 3px 6px;
+        border-radius: 3px;
+    }
+</style>
+
+
+<p>
+    @Html.ActionLink("Thêm mới sách", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th style="text-align:center;width:140px">
+            Tên sách
+        </th>
+        <th style="text-align:center;width:200px">
+            Mô tả
+        </th>
+        <th style="text-align:center;width:80px">
+            @Html.DisplayNameFor(model => model.First().AnhBia)
+        </th>
+        <th style="text-align:center;width:100px">
+            Ngày cập nhật
+        </th>
+        <th style="text-align:center;width:80px">
+            Số lượng
+        </th>
+        <th style="text-align:center;width:80px">
+            @Html.DisplayNameFor(model => model.First().GiaBan)
+        </th>
+        <th style="text-align:center;width:100px">
+            Chủ đề
+        </th>
+        <th style="text-align:center;width:100px">
+            Nhà xuất bản
+        </th>
+        <th style="text-align:center;width:80px">
+            Miễn phí
+        </th>
+        <th style="text-align:center"></th>
+    </tr>
+    @foreach (var item in Model)
+    {
+<tr>
+    <td>
+        @*Sử dụng helper để cắt TenSach lấy 50 ký tự*@
+        @Truncate(item.TenSach, 50)
+    </td>
+    <td>
+        @*Sử dụng helper để cắt MoTa lấy 70 ký tự*@
+        @Html.Raw(Truncate(item.MoTa, 70).ToString())
+    </td>
+    <td>
+        <img src="~/Image/@item.AnhBia" style="width:50px;" />
+    </td>
+    <td>
+        @*Định dạng hiển thị*@
+        @Html.FormatValue(@item.NgayCapNhat, "{0:dd/MM/yyyy}")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.SoLuongBan)
+    </td>
+    <td>
+        @Html.FormatValue(item.GiaBan, "{0:#,##0}")
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CHUDE.TenChuDe)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.NHAXUATBAN.TenNXB)
+    </td>
+    <td style="text-align:center">
+        @if (item.MienPhi.HasValue && item.MienPhi.Value)
+        {
+            <span class="label label-success">Có</span>
+        }
+        else
+        {
+            <span class="label label-danger">Không</span>
+        }
+    </td>
+    <td>
+
+        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.MaSach }, new { @class = "btn btn-warning" })
+        @Html.ActionLink("Chi tiết", "Details", new { id = item.MaSach }, new { @class = "btn btn-primary" })
+
+        @Html.ActionLink("Xóa", "Delete", new { id = item.MaSach }, new { @class = "btn btn-danger" })
+    </td>
+</tr>
+    }
+</table>
+@*Tạo liên kết phần trang*@
+Trang @(Model.PageCount < Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page = page }))
+</div>
+
+
+
