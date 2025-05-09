@@ -1,0 +1,30 @@
+﻿@model IEnumerable<SachOnline.Models.TruyenTranh>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="margin-top:150px">
+            @foreach (var truyenTranh in Model)
+            {
+                <!-- Product 1 -->
+
+                <div class="product-item men" style="margin: 15px 25px">
+                    <div class="product discount product_filter">
+                        <div class="product_image">
+                            <a href="@Url.Action("ChiTiet","Comic", new { id = truyenTranh.MaTruyen})"><img src="~/Image/@truyenTranh.HinhAnh" alt="Thumbnail Image 1" style="height: 300px"></a>
+                        </div>
+                        <div class="favorite favorite_left"></div>
+                        <div class="product_info">
+                            <h6 class="product_name" style="margin-top: 20px"><a href="@Url.Action("ChiTiet","Comic", new { id = truyenTranh.MaTruyen})">@truyenTranh.TenTruyen</a></h6>
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>

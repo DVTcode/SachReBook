@@ -17,7 +17,10 @@ namespace SachOnline.Areas.Admin.Controllers
         public ChuDeController()
         {
             // Khởi tạo chuỗi kết nối
-            connection = "Data Source=DESKTOP-1Q9MS11\\SQLEXPRESS06;Initial Catalog=SachOnline;Integrated Security=True";
+            connection = @"Data Source=LAPTOP-7HTVH7CG\SQLEXPRESS;
+                      Initial Catalog=SachOnline;
+                      Integrated Security=True;
+                      Encrypt=False;";
             data = new dbSachOnlineDataContext(connection);
         }
         // GET: Admin/ChuDe
@@ -54,6 +57,70 @@ namespace SachOnline.Areas.Admin.Controllers
             }
 
             return View(chude);
+        }
+        [HttpGet]
+        public ActionResult EditChuDe(int id)
+        {
+            var chuDe = data.CHUDEs.SingleOrDefault(n => n.MaCD == id);
+            if (chuDe == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            return View(chuDe);
+        }
+
+        [HttpPost]
+        public ActionResult EditChuDe(CHUDE chuDe)
+        {
+            var existingChuDe = data.CHUDEs.SingleOrDefault(n => n.MaCD == chuDe.MaCD);
+            if (existingChuDe == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            if (ModelState.IsValid)
+            {
+                existingChuDe.TenChuDe = chuDe.TenChuDe;
+
+                data.SubmitChanges();
+
+                return RedirectToAction("Index"); // Chuyển hướng đến trang danh sách CHUDE sau khi chỉnh sửa
+            }
+
+            return View(existingChuDe);
+        }
+        [HttpGet]
+        public ActionResult DeleteChuDe(int id)
+        {
+            var chuDe = data.CHUDEs.SingleOrDefault(n => n.MaCD == id);
+            if (chuDe == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(chuDe);
+        }
+
+        [HttpPost, ActionName("DeleteChuDe")]
+        public ActionResult DeleteChuDeConfirm(int id)
+        {
+            var chuDe = data.CHUDEs.SingleOrDefault(n => n.MaCD == id);
+            if (chuDe == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            // Kiểm tra xem CHUDE có liên quan đến bảng nào khác không
+            // Nếu có, bạn có thể thêm điều kiện kiểm tra tại đây
+
+            data.CHUDEs.DeleteOnSubmit(chuDe);
+            data.SubmitChanges();
+
+            return RedirectToAction("Index"); // Chuyển hướng về trang danh sách CHUDE sau khi xóa
         }
     }
 

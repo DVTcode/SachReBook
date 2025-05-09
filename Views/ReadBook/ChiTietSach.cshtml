@@ -1,91 +1,33 @@
 ﻿@model SachOnline.Models.SACH
-
 @{
-    ViewBag.Title = "ChiTietSach";
-    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+    ViewBag.Title = "Chi Tiết Sách";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml"; // Điều chỉnh nếu bạn dùng layout khác
 }
 
-<h2>ChiTietSach</h2>
+<div style="margin-top: 100px;">
+    <h2>@Model.TenSach</h2>
 
-<div>
-    <h4>SACH</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.TenSach)
-        </dt>
+    <div style="display: flex; gap: 20px; margin-top: 20px;">
+        <div style="flex: 1;">
+            <img src="@Url.Content("~/Image/" + Model.AnhBia)" alt="Ảnh bìa sách" style="max-width: 100%; height: auto;" />
+        </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.TenSach)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MoTa)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MoTa)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.AnhBia)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.AnhBia)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.NgayCapNhat)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.NgayCapNhat)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SoLuongBan)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SoLuongBan)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.GiaBan)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.GiaBan)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaCD)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaCD)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MaNXB)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MaNXB)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MienPhi)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MienPhi)
-        </dd>
-
-    </dl>
+        <div style="flex: 2;">
+            <p><strong>Tác giả:</strong> @Model.NHAXUATBAN</p>
+            <p><strong>Ngày cập nhật:</strong> @Model.NgayCapNhat?.ToString("dd/MM/yyyy")</p>
+            <p>
+                <strong>Giá:</strong>
+                @if (Model.GiaBan.HasValue)
+                {
+                    @String.Format("{0:N0} VNĐ", Model.GiaBan)
+                }
+                else
+                {
+                    <span>Miễn phí</span>
+                }
+            </p>
+            <p><strong>Mô tả:</strong></p>
+            <p>@Model.MoTa</p>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.MaSach }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

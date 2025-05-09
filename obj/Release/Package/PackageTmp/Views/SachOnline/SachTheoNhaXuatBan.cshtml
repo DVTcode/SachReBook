@@ -1,0 +1,61 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<SachOnline.Models.SACH>
+@{
+    ViewBag.Title = "SachTheoNhaXuatBan";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<style type="text/css">
+    .imgbook {
+        transition: all 1s ease-in;
+        width: 400px;
+    }
+
+        .imgbook:hover {
+            transform: scale(0.9);
+            cursor: pointer;
+        }
+
+    .MenuTrang {
+        display: inline;
+        text-align: center;
+    }
+</style>
+
+<h2 class="text-center"> SÁCH THEO NHÀ XUẤT BẢN </h2>
+<hr>
+<div class="row">
+    <div class="col">
+        <div class="product-grid" data-isotope='{ "itemSelector": ".product-item", "layoutMode": "fitRows" }' style="margin-top:150px">
+            @foreach (var sach in Model)
+            {
+                <!-- Product 1 -->
+
+                <div class="product-item men" style="margin: 15px 25px">
+                    <div class="product discount product_filter">
+                        <div class="product_image">
+                            <img src="~/Image/@sach.AnhBia" alt="@sach.TenSach" style="height: 300px">
+                        </div>
+                        <div class="favorite favorite_left"></div>
+                        <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>
+                        <div class="product_info">
+                            <h6 class="product_name" style="margin-top: 20px"><a href="@Url.Action("ChiTietSach","SachOnline", new { id = sach.MaSach})">@sach.TenSach</a></h6>
+                        </div>
+                    </div>
+                    <div class="red_button add_to_cart_button"><a href="@Url.Action("ThemGioHang", "GioHang", new { ms = sach.MaSach, Url = Request.Url.ToString() })">add to cart</a></div>
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+@*Tạo liên kết các trang*@
+  Trang @(Model.PageCount<Model.PageNumber?0:Model.PageNumber)/@Model.PageCount
+<div class="MenuTrang">
+    @Html.PagedListPager(Model, page => Url.Action("SachTheoNhaXuatBan", new { id = ViewBag.Id, page }))
+</div>
+
+
+
+

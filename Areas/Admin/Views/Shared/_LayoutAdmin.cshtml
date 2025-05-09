@@ -19,28 +19,29 @@
                 <a class="navbar-brand" href="@Url.Action("Index","Home")">
                     SachOnlineAdmin
                 </a>
+                <div id="navAdmin">
+                    <ul class="nav navbar-nav">
+                        <li><a href="@Url.Action("Index","Home")">QUẢN LÝ SÁCH</a> </li>
+                        <li><a href="@Url.Action("Index","ChuDe")">QUẢN LÝ CHỦ ĐỀ</a> </li>
+                        <li>
+                            <a href="@Url.Action("Index","NhaXuatBan")">
+                                QUẢN LÝ NHÀ XUẤT
+                                BẢN
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","KhachHang")">
+                                QUẢN LÝ KHÁCH
+                                HÀNG
+                            </a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="collapse navbar-collapse" id="navAdmin">
-                <ul class="nav navbar-nav">
-                    <li><a href="@Url.Action("Index","Home")">QUẢN LÝ SÁCH</a> </li>
-                    <li><a href="@Url.Action("Index","ChuDe")">QUẢN LÝ CHỦ ĐỀ</a> </li>
-                    <li>
-                        <a href="@Url.Action("Index","NhaXuatBan")">
-                            QUẢN LÝ NHÀ XUẤT
-                            BẢN
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","KhachHang")">
-                            QUẢN LÝ KHÁCH
-                            HÀNG
-                        </a>
-                    </li>
-                    <li>
-                        <a href="@Url.Action("Index","DonHang")">QUẢN LÝ ĐƠN HÀNG</a>
-                    </li>
-                </ul>
-            </div>
+            
                     </div>
                 </nav>
                 <div class="container">
@@ -51,5 +52,5 @@
                         <p>ADMIN</p>
                     </div>
                 </footer>
-            </body>
-        </html>
+    </body>
+ </html>

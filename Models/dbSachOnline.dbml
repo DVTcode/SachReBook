@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="SachOnline" Class="dbSachOnlineDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-1Q9MS11\SQLEXPRESS06;Initial Catalog=SachOnline;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="QLBansachConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.ADMIN" Member="ADMINs">
     <Type Name="ADMIN">
       <Column Name="MaAd" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -60,6 +59,7 @@
       <Column Name="DienThoai" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
       <Column Name="NgaySinh" Type="System.DateTime" DbType="SmallDateTime" CanBeNull="true" />
       <Association Name="KHACHHANG_DONDATHANG" Member="DONDATHANGs" ThisKey="MaKH" OtherKey="MaKH" Type="DONDATHANG" />
+      <Association Name="KHACHHANG_LichSuDocSach" Member="LichSuDocSaches" ThisKey="MaKH" OtherKey="MaKH" Type="LichSuDocSach" />
     </Type>
   </Table>
   <Table Name="dbo.NHAXUATBAN" Member="NHAXUATBANs">
@@ -86,6 +86,7 @@
       <Association Name="SACH_CHITIETDATHANG" Member="CHITIETDATHANGs" ThisKey="MaSach" OtherKey="MaSach" Type="CHITIETDATHANG" />
       <Association Name="SACH_Comment" Member="Comments" ThisKey="MaSach" OtherKey="MaSach" Type="Comment" />
       <Association Name="SACH_VIETSACH" Member="VIETSACHes" ThisKey="MaSach" OtherKey="MaSach" Type="VIETSACH" />
+      <Association Name="SACH_LichSuDocSach" Member="LichSuDocSaches" ThisKey="MaSach" OtherKey="MaSach" Type="LichSuDocSach" />
       <Association Name="CHUDE_SACH" Member="CHUDE" ThisKey="MaCD" OtherKey="MaCD" Type="CHUDE" IsForeignKey="true" />
       <Association Name="NHAXUATBAN_SACH" Member="NHAXUATBAN" ThisKey="MaNXB" OtherKey="MaNXB" Type="NHAXUATBAN" IsForeignKey="true" />
     </Type>
@@ -108,6 +109,48 @@
       <Column Name="ViTri" Type="System.String" DbType="NVarChar(30)" CanBeNull="true" />
       <Association Name="SACH_VIETSACH" Member="SACH" ThisKey="MaSach" OtherKey="MaSach" Type="SACH" IsForeignKey="true" />
       <Association Name="TACGIA_VIETSACH" Member="TACGIA" ThisKey="MaTG" OtherKey="MaTG" Type="TACGIA" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.LichSuDocSach" Member="LichSuDocSaches">
+    <Type Name="LichSuDocSach">
+      <Column Name="MaSach" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaKH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NgayDoc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="TinhTrangdoc" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="SACH_LichSuDocSach" Member="SACH" ThisKey="MaSach" OtherKey="MaSach" Type="SACH" IsForeignKey="true" />
+      <Association Name="KHACHHANG_LichSuDocSach" Member="KHACHHANG" ThisKey="MaKH" OtherKey="MaKH" Type="KHACHHANG" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TrangTruyen" Member="TrangTruyens">
+    <Type Name="TrangTruyen">
+      <Column Name="MaTrang" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MaChapter" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="STT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Chapter_TrangTruyen" Member="Chapter" ThisKey="MaChapter" OtherKey="MaChapter" Type="Chapter" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TruyenTranh" Member="TruyenTranhs">
+    <Type Name="TruyenTranh">
+      <Column Name="MaTruyen" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenTruyen" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="TacGia" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="TheLoai" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="HinhAnh" Type="System.String" DbType="NVarChar(250)" CanBeNull="true" />
+      <Column Name="NgayCapNhat" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="MienPhi" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Association Name="TruyenTranh_Chapter" Member="Chapters" ThisKey="MaTruyen" OtherKey="MaTruyen" Type="Chapter" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Chapter" Member="Chapters">
+    <Type Name="Chapter">
+      <Column Name="MaChapter" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenChapter" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="STT" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="MaTruyen" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Chapter_TrangTruyen" Member="TrangTruyens" ThisKey="MaChapter" OtherKey="MaChapter" Type="TrangTruyen" />
+      <Association Name="TruyenTranh_Chapter" Member="TruyenTranh" ThisKey="MaTruyen" OtherKey="MaTruyen" Type="TruyenTranh" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -17,7 +17,10 @@ namespace SachOnline.Controllers
         public SachOnlineController()
         {
             // Khởi tạo chuỗi kết nối
-            connection = "Data Source=DESKTOP-1Q9MS11\\SQLEXPRESS06;Initial Catalog=SachOnline;Integrated Security=True";
+            connection = @"Data Source=LAPTOP-7HTVH7CG\SQLEXPRESS;
+                      Initial Catalog=SachOnline;
+                      Integrated Security=True;
+                      Encrypt=False;";
             data = new dbSachOnlineDataContext(connection);
         }
         private List<SACH> LaySachMoi(int count)

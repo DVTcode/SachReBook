@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SachOnline.Models.SACH>
+
+@{
+    Layout = null;
+}
+@using (Html.BeginForm("Search", "Search", FormMethod.Get))
+{
+    <p>
+
+        <input type="text" name="strSearch" value="@ViewBag.Search" placeholder="Nhập sản phẩm cần tìm..." size="100" /> <input type="submit" value="Tìm kiếm" />
+
+    </p>
+}
+@{
+    if (Model != null)
+    {
+        <h2>KẾT QUẢ TÌM KIẾM</h2>
+
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.TenSach)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.GiaBan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MoTa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.AnhBia)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.NgayCapNhat)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SoLuongBan)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaCD)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.MaNXB)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TenSach)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GiaBan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MoTa)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AnhBia)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NgayCapNhat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SoLuongBan)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaCD)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MaNXB)
+                    </td>
+                    <td>
+                        @* @Html.ActionLink("Sửa", "Edit", new { id = item.MaSach }) |*@
+                        @Html.ActionLink("Chi tiết ", "Details", new { id = item.MaSach })
+                        @* @Html.ActionLink("Xóa", "Delete", new { id = item.MaSach })*@
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+}
+

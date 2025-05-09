@@ -1,0 +1,9 @@
+﻿@model IEnumerable<SachOnline.Models.CHUDE>
+<ul class="currency_selection">
+
+   
+    @foreach (var item in Model)
+    {
+<li><a href="@Url.Action("SachTheoChuDe","SachOnline", new { id = item.MaCD})">@item.TenChuDe</a></li>
+    }
+</ul>

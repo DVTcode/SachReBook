@@ -15,7 +15,10 @@ namespace SachOnline.Controllers
         public UserController()
         {
             // Khởi tạo chuỗi kết nối
-            connection = "Data Source=DESKTOP-1Q9MS11\\SQLEXPRESS06;Initial Catalog=SachOnline;Integrated Security=True";
+            connection = @"Data Source=LAPTOP-7HTVH7CG\SQLEXPRESS;
+                      Initial Catalog=SachOnline;
+                      Integrated Security=True;
+                      Encrypt=False;";
             db = new dbSachOnlineDataContext(connection);
         }
         [HttpGet]
@@ -112,12 +115,12 @@ namespace SachOnline.Controllers
         {
             return View();
         }
-
         [HttpPost]
         public ActionResult DangNhap(FormCollection collection)
         {
             var sTenDN = collection["TenDN"];
             var sMatKhau = collection["MatKhau"];
+
             if (String.IsNullOrEmpty(sTenDN))
             {
                 ViewData["Err1"] = "Bạn chưa nhập tên đăng nhập";
@@ -133,7 +136,8 @@ namespace SachOnline.Controllers
                 {
                     ViewBag.ThongBao = "Chúc mừng đăng nhập thành công";
                     Session["TaiKhoan"] = kh;
-                    return RedirectToAction("DatHang", "GioHang");
+                    Session["MaKH"] = kh.MaKH; // 🛠 Lưu MaKH vào Session
+                    return RedirectToAction("Index", "SachOnline");
                 }
                 else
                 {
@@ -142,6 +146,7 @@ namespace SachOnline.Controllers
             }
             return View();
         }
+
         public ActionResult LoginLogoutPartial()
         {
             return PartialView("LoginLogoutPartial");

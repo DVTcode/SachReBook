@@ -1,0 +1,36 @@
+﻿@model SachOnline.Models.Chapter
+@{
+    ViewBag.Title = "Đọc truyện - " + Model.TenChapter;
+    Layout = "~/Views/Shared/_LayoutNew.cshtml"; // Nếu bạn có layout chung
+    var pages = ViewBag.Pages as List<SachOnline.Models.TrangTruyen>;
+}
+
+<div style="margin-top: 200px">
+    <h2>@Model.TenChapter</h2>
+
+    <div class="chapter-info">
+        <p><strong>Truyện:</strong> @Model.TruyenTranh.TenTruyen</p>
+    </div>
+
+    <div class="chapter-pages">
+        @if (pages != null && pages.Count > 0)
+        {
+            foreach (var page in pages)
+            {
+                <div class="page-item" style="margin-bottom:20px;">
+                    <img src="@Url.Content(page.HinhAnh)" alt="Trang @page.STT" style="max-width:100%; height:auto;" />
+                </div>
+            }
+        }
+        else
+        {
+            <p>Không tìm thấy trang truyện cho chapter này.</p>
+        }
+    </div>
+
+
+    <div class="back-link">
+        <a href="@Url.Action("Index", "Comic", new { id = Model.MaTruyen })" class="btn btn-primary">← Quay lại truyện</a>
+    </div>
+</div>
+

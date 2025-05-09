@@ -17,7 +17,10 @@ namespace SachOnline.Areas.Admin.Controllers
         public KhachHangController()
         {
             // Khởi tạo chuỗi kết nối
-            connection = "Data Source=DESKTOP-1Q9MS11\\SQLEXPRESS06;Initial Catalog=SachOnline;Integrated Security=True";
+            connection = @"Data Source=LAPTOP-7HTVH7CG\SQLEXPRESS;
+                      Initial Catalog=SachOnline;
+                      Integrated Security=True;
+                      Encrypt=False;";
             data = new dbSachOnlineDataContext(connection);
         }
         // GET: Admin/KhachHang
@@ -65,6 +68,91 @@ namespace SachOnline.Areas.Admin.Controllers
                 return RedirectToAction("Index", "KhachHang"); // "KhachHang" là tên Controller quản lý khách hàng
             }
             return View();
+        }
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var khachHang = data.KHACHHANGs.SingleOrDefault(n => n.MaKH == id);
+            if (khachHang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            // Hiển thị các thông tin cần thiết cho dropdownlist hoặc các phần tử khác nếu cần
+            // Ví dụ: ViewBag.MaLoaiKH = new SelectList(data.LOAIKHACHHANGs.ToList(), "MaLoaiKH", "TenLoaiKH", khachHang.MaLoaiKH);
+
+            return View(khachHang);
+        }
+
+        [HttpPost]
+        [ValidateInput(false)]
+        public ActionResult Edit(KHACHHANG khachHang)
+        {
+            var existingKhachHang = data.KHACHHANGs.SingleOrDefault(n => n.MaKH == khachHang.MaKH);
+            if (existingKhachHang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            // Cập nhật thông tin từ form
+            existingKhachHang.HoTen = khachHang.HoTen;
+            existingKhachHang.TaiKhoan = khachHang.TaiKhoan;
+            existingKhachHang.MatKhau = khachHang.MatKhau;
+            existingKhachHang.Email = khachHang.Email;
+            existingKhachHang.DiaChi = khachHang.DiaChi;
+            existingKhachHang.DienThoai = khachHang.DienThoai;
+            existingKhachHang.NgaySinh = khachHang.NgaySinh;
+
+            // Cập nhật các trường khác nếu cần
+            // Ví dụ: existingKhachHang.MaLoaiKH = khachHang.MaLoaiKH;
+
+            if (ModelState.IsValid)
+            {
+                data.SubmitChanges();
+                return RedirectToAction("Index"); // Chuyển hướng đến trang danh sách sau khi cập nhật thành công
+            }
+
+            // Hiển thị lại trang edit nếu có lỗi
+            return View(existingKhachHang);
+        }
+        [HttpGet]
+        public ActionResult Delete(int id)
+        {
+            var khachHang = data.KHACHHANGs.SingleOrDefault(n => n.MaKH == id);
+            if (khachHang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+            return View(khachHang);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirm(int id, FormCollection f)
+        {
+            var khachHang = data.KHACHHANGs.SingleOrDefault(n => n.MaKH == id);
+            if (khachHang == null)
+            {
+                Response.StatusCode = 404;
+                return null;
+            }
+
+            // Kiểm tra xem khách hàng có trong các bảng liên quan không trước khi xóa
+            var donDatHangs = data.DONDATHANGs.Where(ddh => ddh.MaKH == id).ToList();
+            if (donDatHangs.Count > 0)
+            {
+                // Nếu khách hàng có đơn đặt hàng, bạn có thể hiển thị thông báo hoặc xử lý khác
+                ViewBag.ThongBao = "Khách hàng này đang có trong bảng Đơn đặt hàng. Hãy xóa hết đơn đặt hàng liên quan trước khi xóa khách hàng.";
+                return View(khachHang);
+            }
+
+            // Xóa khách hàng nếu không có đơn đặt hàng liên quan
+            data.KHACHHANGs.DeleteOnSubmit(khachHang);
+            data.SubmitChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

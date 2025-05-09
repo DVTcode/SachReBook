@@ -1,0 +1,32 @@
+﻿@model SachOnline.Models.UserModel
+
+@{
+    ViewBag.Title = "User Profile";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+
+<h2 style="margin-top: 200px;">User Profile</h2>
+
+<dl>
+    <dt>Họ Tên:</dt>
+    <dd>@Model.HoTen</dd>
+
+    <dt>Tên Đăng Nhập:</dt>
+    <dd>@Model.TaiKhoan</dd>
+
+    <dt>Mật Khẩu:</dt>
+    <dd>@Model.Matkhau</dd>
+
+    <dt>Email:</dt>
+    <dd>@Model.Email</dd>
+
+
+    <dt>Dia Chi:</dt>
+    <dd>@Model.DiaChi</dd>
+
+    <dt>Dien Thoai:</dt>
+    <dd>@Model.DienThoai</dd>
+
+    <!-- Thêm các chi tiết khác của người dùng -->
+</dl>
+

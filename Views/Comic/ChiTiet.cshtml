@@ -1,0 +1,45 @@
+﻿@model SachOnline.Models.TruyenTranh
+@{
+    ViewBag.Title = "Chi Tiết Truyện";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml"; // Nếu bạn có layout chung
+    var chapters = ViewBag.Chapters as List<SachOnline.Models.Chapter>;
+}
+
+<h2 style="margin-top: 200px">@Model.TenTruyen</h2>
+
+<div style="display: flex; gap: 20px;">
+    <div style="flex: 1;">
+        <img src="@Url.Content("~/Image/" + Model.HinhAnh)" alt="Ảnh bìa" style="max-width: 100%; height: auto;" />
+    </div>
+    <div style="flex: 2;">
+        <p><strong>Tác giả:</strong> @Model.TacGia</p>
+        <p><strong>Ngày cập nhật:</strong> @Model.NgayCapNhat?.ToString("dd/MM/yyyy")</p>
+        <p><strong>Mô tả:</strong></p>
+        <p>@Model.MoTa</p>
+    </div>
+</div>
+
+<hr />
+
+<h3>Danh sách Chapter</h3>
+
+@if (chapters != null && chapters.Count > 0)
+{
+    <ul>
+        @foreach (var chapter in chapters)
+        {
+            <li>
+                <a style="font-size: larger" href="@Url.Action("DocChapter", "Comic", new { id = chapter.MaChapter })">
+                    Chapter @chapter.STT: @chapter.TenChapter
+                </a>
+            </li>
+        }
+    </ul>
+    <div class="back-link" style="margin-top: 100px">
+        <a href="@Url.Action("Index", "Comic", new { id = Model.MaTruyen })" class="btn btn-primary">← Quay lại truyện tranh</a>
+    </div>
+}
+else
+{
+    <p>Chưa có chapter nào cho truyện này.</p>
+}

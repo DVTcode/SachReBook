@@ -1,0 +1,9 @@
+﻿@model IEnumerable<SachOnline.Models.NHAXUATBAN>
+<ul class="language_selection">
+    
+    @foreach (var item in Model)
+    {
+<li><a href="@Url.Action("SachTheoNhaXuatBan","SachOnline", new {id = item.MaNXB})">@item.TenNXB</a></li>
+    }
+</ul>
+

@@ -1,0 +1,33 @@
+﻿@model IEnumerable<SachOnline.Models.LichSuDocSach>
+
+@{
+    ViewBag.Title = "Lịch Sử Đọc Sách";
+    Layout = "~/Views/Shared/_LayoutNew.cshtml";
+}
+<div style="margin-top: 200px">
+    <h2>Lịch Sử Đọc Sách</h2>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ThoiGianDoc)</th>
+                <th>@Html.DisplayNameFor(model => model.TinhTrangDoc)</th>
+                <th>Tên Sách</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ThoiGianDoc.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.TinhTrangDoc</td>
+                    <td>@item.SACH.TenSach</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>
+        @Html.ActionLink("Quay lại", "Index", "Home", null, new { @class = "btn btn-secondary" })
+    </p>
+</div>
